@@ -27,10 +27,18 @@ const Questions = [{
 	]
 }
 ]
+	
+let counter;
 // Set start
 let start = true;
+console.log("start = true");
+
 // Iterate
 function iterate(id) {
+	
+	console.log("in iterate");
+	clearInterval(counter);
+	startTimer(3);
 	// Getting the result display section
 	let result = document.getElementsByClassName("result");
 	result[0].innerText = "";
@@ -90,6 +98,9 @@ function iterate(id) {
 }
 if (start) {
 	iterate("0");
+	console.log("in start 0");
+	
+
 }
 // Grabbing the evaluate button
 const evaluate = document.getElementsByClassName("evaluate")[0];
@@ -98,8 +109,9 @@ const next = document.getElementsByClassName('next')[0];
 let id = 0;
 let numCorrect = 0;
 let numIncorrect = 0;
-console.log(next);
+console.log("next button" + next);
 next.addEventListener("click", () => {
+	console.log("on click of next button");
 	start = false;
 	if (id < 2) {
 		id++;
@@ -120,6 +132,8 @@ next.addEventListener("click", () => {
 })
 // Evaluate method
 evaluate.addEventListener("click", () => {
+	console.log("on click of evaluate button");
+
 	let finalIsCorrect = iterate(id);
 	if (finalIsCorrect) {
 		++numCorrect;
@@ -136,8 +150,13 @@ evaluate.addEventListener("click", () => {
 //Timer
 
 let timer = document.querySelector("timer");
+console.log("timer: " + timer);
+
+const timeCount = document.querySelector(".timer, timer_sec");
+const timeText = document.querySelector(".timer, time_left_txt");
 
 function startTimer(time){
+	console.log("in startTimer funciton");
     counter = setInterval(timer, 1000);
     function timer(){
         timeCount.textContent = time; //changing the value of timeCount with time value
@@ -149,7 +168,20 @@ function startTimer(time){
         if(time < 0){ //if timer is less than 0
             clearInterval(counter); //clear counter
             timeText.textContent = "Time Off"; //change the time text to time off
-            const allOptions = option_list.children.length; //getting all option items
+			 if (id < 2) {
+				id++;
+				iterate(id);
+				console.log(id);
+				++numIncorrect;
+			}else if (id == 2){
+				console.log("Final question");
+				next.style.visibility = "hidden";
+				evaluate.style.visibility = "visible";
+			
+				
+				
+
+            /*const allOptions = option_list.children.length; //getting all option items
             let correcAns = questions[que_count].answer; //getting correct answer from array
             for(i=0; i < allOptions; i++){
                 if(option_list.children[i].textContent == correcAns){ //if there is an option which is matched to an array answer
@@ -160,8 +192,8 @@ function startTimer(time){
             }
             for(i=0; i < allOptions; i++){
                 option_list.children[i].classList.add("disabled"); //once user select an option then disabled all options
-            }
-            next_btn.classList.add("show"); //show the next button if user selected any option
+            } */
+            //next_btn.classList.add("show"); //show the next button if user selected any option
         }
     }
 }
@@ -179,4 +211,4 @@ function queCounter(index){
     //creating a new span tag and passing the question number and total question
     let totalQueCounTag = '<span><p>'+ index +'</p> of <p>'+ questions.length +'</p> Questions</span>';
     bottom_ques_counter.innerHTML = totalQueCounTag;  //adding new span tag inside bottom_ques_counter
-}
+}} 
